@@ -26,7 +26,8 @@ const Create = () => {
                 time: dateText,
                 upvote:1,
                 user:auth.currentUser.email,
-                url:''
+                url:'', 
+                comments:[]
             }).then(()=>{
                 formRef.reset()
                 console.log('added')

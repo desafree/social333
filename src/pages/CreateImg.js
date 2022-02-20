@@ -28,7 +28,8 @@ const CreateImg = () => {
                 time: dateText,
                 upvote:1,
                 user:auth.currentUser.email,
-                url:url
+                url:url,
+                comments:[]
             }).then(()=>{
                 formRef.reset()
                 console.log('added')
