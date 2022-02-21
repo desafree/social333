@@ -5,6 +5,9 @@ import { deleteDoc,doc} from "firebase/firestore";
 import { db } from "../firebaseConfig/firebaseConfig";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
+import { updateDoc } from "firebase/firestore";
+import { useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
 
 
 
@@ -13,8 +16,13 @@ const Post = () => {
     const navigate = useNavigate()
     const location = useLocation()
     const {post} = location.state
+    const [user,setUser] = useState()
 
-    console.log(post)
+    onAuthStateChanged(auth, (currentUser) => {
+        setUser(currentUser);
+    });
+
+    // console.log(post)
 
     function deletePost() {
         const docRef = doc(db,'posts',post.post.id)
@@ -23,6 +31,30 @@ const Post = () => {
             navigate('/')
         })
 
+    }
+
+    function commentPost(e) {
+        e.preventDefault()
+        let date = new Date()
+        let dateString = date.toString()
+
+        const commentForm = document.querySelector('form')
+        const newComment = {content:commentForm.comment.value, user:user.email, time:dateString}
+
+        console.log(post.post.comments,newComment)
+
+        const newComments = post.post.comments.concat(newComment)
+
+        console.log(newComments)
+        
+        if(user) {
+            const docRef = doc(db,'posts',post.post.id)
+
+            updateDoc(docRef,{comments:newComments}).then(()=>{
+                console.log('added comment')
+                commentForm.reset()
+            })
+        }
     }
 
 
@@ -40,9 +72,20 @@ const Post = () => {
             {(post.post.user === auth.currentUser.email)? <Link to='/update' state={{post:{post}}}><button>Edit post</button></Link> : <button>invalid user, cant edit</button>} */}
             <div>
                 {post.post.comments.map((comment)=>{
-                    return <p >{comment}</p>
+                    return (<div>
+                            <h4 >{comment.user}</h4>
+                            <p>{comment.content}</p>
+                            <p>{comment.time}</p>
+                        </div>)
+                    
                 })}
             </div>
+            {(auth.currentUser)?<form action="#" onSubmit={commentPost}>
+                <label htmlFor="comment">Comment as {auth.currentUser.email}</label>
+                <textarea name="comment" id="comment" cols="30" rows="10"></textarea>
+                <button>Comment</button>
+            </form>:<p>Log in to comment</p>}
+            
         </div>
      );
 }
