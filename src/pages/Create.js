@@ -18,14 +18,14 @@ const Create = () => {
             const content = formRef.content.value
             const date = new Date();
             let dateText = date.toString()
-            console.log(auth.currentUser.email)
+            console.log(auth.currentUser.displayName)
     
             addDoc(colRef,{
                 title:title,
                 content: content,
                 time: dateText,
                 upvote:1,
-                user:auth.currentUser.email,
+                user:auth.currentUser.displayName,
                 url:'', 
                 comments:[]
             }).then(()=>{

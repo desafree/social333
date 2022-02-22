@@ -27,7 +27,7 @@ const CreateImg = () => {
                 content: content,
                 time: dateText,
                 upvote:1,
-                user:auth.currentUser.email,
+                user:auth.currentUser.displayName,
                 url:url,
                 comments:[]
             }).then(()=>{

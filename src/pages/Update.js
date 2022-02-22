@@ -7,9 +7,9 @@ const Update = () => {
 
     const location = useLocation()
     const navigate = useNavigate()
-    const {post} = location.state
-
-    console.log(post.post.post.user)
+    const post = location.state.post
+    const id = location.state.id
+    console.log(post,id)
 
     function updatePost(e) {
         e.preventDefault()
@@ -20,7 +20,7 @@ const Update = () => {
         const date = new Date();
         let dateTextNew = date.toString()
 
-        const docRef = doc(db, 'posts', post.post.post.id)
+        const docRef = doc(db, 'posts', id)
         updateDoc(docRef,{
             title:titleNew,
             content:contentNew,
@@ -37,12 +37,12 @@ const Update = () => {
                 updatePost(e)
             }}>
                 <label htmlFor="title">Title</label>
-                <input type="text" id="title" defaultValue={post.post.post.title} name="title"/>
-                <h2>{post.post.post.user}</h2>
+                <input type="text" id="title" defaultValue={post.title} name="title"/>
+                <h2>{post.user}</h2>
                 <label htmlFor="content">content</label>
-                <textarea name="content" id="content" cols="30" rows="10" defaultValue={post.post.post.content}></textarea>
-                <p>{post.post.post.time}</p>
-                <p>{post.post.post.upvote}</p>
+                <textarea name="content" id="content" cols="30" rows="10" defaultValue={post.content}></textarea>
+                <p>{post.time}</p>
+                <p>{post.upvote}</p>
                 <button>Update post</button>
             </form>
         </div>

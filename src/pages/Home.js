@@ -83,8 +83,8 @@ const Home = () => {
                 
             </div>
             <div>
-                {posts && posts.map((post)=>{
-                    return <Link to={`/post/${post.id}`}> <PostSummary post={post} key={post.id} /></Link>
+                {posts && posts.map((post,index)=>{
+                    return <PostSummary post={post} key={post.id} index={index}/>
 
                 })}
             </div>
