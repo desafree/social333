@@ -48,6 +48,7 @@ const SignUp = () => {
                 <h3> Username </h3>
                 <input
                 placeholder="Username..."
+                required
                 onChange={(event) => {
                     setUsername(event.target.value);
                 }}

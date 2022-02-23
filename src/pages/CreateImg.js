@@ -78,9 +78,9 @@ const CreateImg = () => {
             <form action="" onSubmit={(e)=>{
                 storageFile(e)
             }}>
-                <input type="text" name="title"/>
-                <input type="text" name="content"/>
-                <input type="file" name="image"/>
+                <input type="text" name="title" required/>
+                <input type="text" name="content" required/>
+                <input type="file" name="image" required/>
                 <button>Submit</button>
             </form>
         </div>

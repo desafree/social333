@@ -47,8 +47,8 @@ const Create = () => {
             <form action="" onSubmit={(e)=>{
                 createPost(e)
             }}>
-                <input type="text" name="title"/>
-                <input type="text" name="content"/>
+                <input type="text" name="title" required/>
+                <input type="text" name="content"required/>
                 <button>Submit</button>
             </form>
         </div>
