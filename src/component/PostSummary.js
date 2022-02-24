@@ -1,6 +1,6 @@
 import { updateDoc, doc } from "firebase/firestore";
 import { useState } from "react/cjs/react.development";
-import { db } from "../firebaseConfig/firebaseConfig";
+import { auth, db } from "../firebaseConfig/firebaseConfig";
 import { Link } from "react-router-dom";
 
 const PostSummary = ({post,index}) => {
@@ -13,26 +13,30 @@ const PostSummary = ({post,index}) => {
         const docRef = doc(db,'posts',post.id)
         const newUpvote = post.upvote + 1
 
-        if(like==0 && unlike==0) {
-            updateDoc(docRef,{
-                upvote:newUpvote
-            }).then(()=>{
-                setLike(1)
-            })
-        }
-        else if(like==0 && unlike==1) {
-            updateDoc(docRef,{
-                upvote:newUpvote + 1
-            }).then(()=>{
-                setLike(1)
-                setUnlike(0)
-            })
+        if(auth.currentUser){
+            if(like==0 && unlike==0) {
+                updateDoc(docRef,{
+                    upvote:newUpvote
+                }).then(()=>{
+                    setLike(1)
+                })
+            }
+            else if(like==0 && unlike==1) {
+                updateDoc(docRef,{
+                    upvote:newUpvote + 1
+                }).then(()=>{
+                    setLike(1)
+                    setUnlike(0)
+                })
+            }
+    
+            const upvoteElement = document.querySelectorAll('.upvote')
+            upvoteElement[index].style.backgroundColor = 'green'
+            const downvoteElement = document.querySelectorAll('.downvote')
+            downvoteElement[index].style.backgroundColor = 'white'
         }
 
-        const upvoteElement = document.querySelectorAll('.upvote')
-        upvoteElement[index].style.backgroundColor = 'green'
-        const downvoteElement = document.querySelectorAll('.downvote')
-        downvoteElement[index].style.backgroundColor = 'white'
+
 
     }
 
@@ -41,26 +45,29 @@ const PostSummary = ({post,index}) => {
         const docRef = doc(db,'posts',post.id)
         const newUpvote = post.upvote - 1
 
-        if(like==0 && unlike==0) {
-            updateDoc(docRef,{
-                upvote:newUpvote
-            }).then(()=>{
-                setUnlike(1)
-            })
-        }
-        else if(like==1 && unlike==0) {
-            updateDoc(docRef,{
-                upvote:newUpvote - 1
-            }).then(()=>{
-                setLike(0)
-                setUnlike(1)
-            })
+        if(auth.currentUser) {
+            if(like==0 && unlike==0) {
+                updateDoc(docRef,{
+                    upvote:newUpvote
+                }).then(()=>{
+                    setUnlike(1)
+                })
+            }
+            else if(like==1 && unlike==0) {
+                updateDoc(docRef,{
+                    upvote:newUpvote - 1
+                }).then(()=>{
+                    setLike(0)
+                    setUnlike(1)
+                })
+            }
+    
+            const upvoteElement = document.querySelectorAll('.upvote')
+            upvoteElement[index].style.backgroundColor = 'white'
+            const downvoteElement = document.querySelectorAll('.downvote')
+            downvoteElement[index].style.backgroundColor = 'red'
         }
 
-        const upvoteElement = document.querySelectorAll('.upvote')
-        upvoteElement[index].style.backgroundColor = 'white'
-        const downvoteElement = document.querySelectorAll('.downvote')
-        downvoteElement[index].style.backgroundColor = 'red'
     }
 
     return ( 

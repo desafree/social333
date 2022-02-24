@@ -28,6 +28,7 @@ const SignUp = () => {
           updateProfile(auth.currentUser,{
             displayName:username
           })
+          console.log(auth.currentUser)
           navigate('/')
         });
       } catch (error) {

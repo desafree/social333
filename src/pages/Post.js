@@ -115,26 +115,29 @@ const Post = () => {
         const docRef = doc(db,'posts',id)
         const newUpvote = post.upvote + 1
 
-        if(like==0 && unlike==0) {
-            updateDoc(docRef,{
-                upvote:newUpvote
-            }).then(()=>{
-                setLike(1)
-            })
-        }
-        else if(like==0 && unlike==1) {
-            updateDoc(docRef,{
-                upvote:newUpvote + 1
-            }).then(()=>{
-                setLike(1)
-                setUnlike(0)
-            })
+        if(auth.currentUser){
+            if(like==0 && unlike==0) {
+                updateDoc(docRef,{
+                    upvote:newUpvote
+                }).then(()=>{
+                    setLike(1)
+                })
+            }
+            else if(like==0 && unlike==1) {
+                updateDoc(docRef,{
+                    upvote:newUpvote + 1
+                }).then(()=>{
+                    setLike(1)
+                    setUnlike(0)
+                })
+            }
+    
+            const upvoteElement = document.querySelector('.upvote')
+            upvoteElement.style.backgroundColor = 'green'
+            const downvoteElement = document.querySelector('.downvote')
+            downvoteElement.style.backgroundColor = 'white'
         }
 
-        const upvoteElement = document.querySelector('.upvote')
-        upvoteElement.style.backgroundColor = 'green'
-        const downvoteElement = document.querySelector('.downvote')
-        downvoteElement.style.backgroundColor = 'white'
 
     }
 
@@ -143,26 +146,29 @@ const Post = () => {
         const docRef = doc(db,'posts',id)
         const newUpvote = post.upvote - 1
 
-        if(like==0 && unlike==0) {
-            updateDoc(docRef,{
-                upvote:newUpvote
-            }).then(()=>{
-                setUnlike(1)
-            })
-        }
-        else if(like==1 && unlike==0) {
-            updateDoc(docRef,{
-                upvote:newUpvote - 1
-            }).then(()=>{
-                setLike(0)
-                setUnlike(1)
-            })
+        if(auth.currentUser){
+            if(like==0 && unlike==0) {
+                updateDoc(docRef,{
+                    upvote:newUpvote
+                }).then(()=>{
+                    setUnlike(1)
+                })
+            }
+            else if(like==1 && unlike==0) {
+                updateDoc(docRef,{
+                    upvote:newUpvote - 1
+                }).then(()=>{
+                    setLike(0)
+                    setUnlike(1)
+                })
+            }
+    
+            const upvoteElement = document.querySelector('.upvote')
+            upvoteElement.style.backgroundColor = 'white'
+            const downvoteElement = document.querySelector('.downvote')
+            downvoteElement.style.backgroundColor = 'red'
         }
 
-        const upvoteElement = document.querySelector('.upvote')
-        upvoteElement.style.backgroundColor = 'white'
-        const downvoteElement = document.querySelector('.downvote')
-        downvoteElement.style.backgroundColor = 'red'
     }
 
 
@@ -182,7 +188,7 @@ const Post = () => {
 
             <div>
                 {post.comments.map((comment,index)=>{
-                    return (<PostComment comment={comment} index={index} id={id} post={post}></PostComment>)
+                    return (<PostComment comment={comment} index={index} id={id} post={post} key={index}></PostComment>)
                 })}
             </div>
             {(user)?<form action="#" onSubmit={commentPost}>
