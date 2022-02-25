@@ -20,6 +20,9 @@ const SignUp = () => {
   
     const register = async () => {
       try {
+        const divSpin = document.querySelector('.spin')
+        const spinner = "<div class='spinner-border' role='status'><span class='visually-hidden'>Loading...</span></div>"
+        divSpin.innerHTML=spinner
         const user = await createUserWithEmailAndPassword(
           auth,
           registerEmail,
@@ -56,6 +59,7 @@ const SignUp = () => {
                 />
                 <input
                 placeholder="Password..."
+                type='password'
                 onChange={(event) => {
                     setRegisterPassword(event.target.value);
                 }}
@@ -67,6 +71,7 @@ const SignUp = () => {
             <h4> User Logged In: </h4>
             {user?.email}
             {user?.displayName}
+            <div className="spin"></div>
         </div>
      );
 }

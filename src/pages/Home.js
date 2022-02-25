@@ -5,6 +5,7 @@ import PostSummary from '../component/PostSummary';
 // import { Link } from 'react-router-dom';
 import { collection, getDocs } from "firebase/firestore";
 import { db } from '../firebaseConfig/firebaseConfig';
+import { Spinner } from 'react-bootstrap';
 
 
 const Home = () => {
@@ -231,10 +232,12 @@ const Home = () => {
                 
             </div>
             <div>
-                {posts && posts.map((post,index)=>{
+                {(posts)? posts.map((post,index)=>{
                     return <PostSummary post={post} key={post.id} index={index}/>
 
-                })}
+                }):<Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>}
             </div>
         </div>
         

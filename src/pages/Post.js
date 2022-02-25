@@ -174,30 +174,32 @@ const Post = () => {
 
     return ( 
         <div>
-            {(post)?<div><h1>{post.title}</h1>
-            <h2>{post.user}</h2>
-            <p>{post.content}</p>
-            {(post.url)? <img src={post.url}></img> : <div>not image</div>}
-            <h6>{post.time}</h6>
-            <h6>{post.upvote}</h6>
-            {(!user)? <div></div> : (post.user === user.displayName)? <button onClick={deletePost}>delete post</button> : <button>invalid user</button>}
-            {(!user)? <div></div> : (post.user === user.displayName)? <Link to='/update' state={{post:post,id:id}}><button>Edit post</button></Link> : <button>invalid user, cant edit</button>}
-            
-            <button onClick={upvote} className="upvote">Upvote</button>
-            <button onClick={downvote} className="downvote">downvote</button>
-
+            {(post)?
             <div>
-                {post.comments.map((comment,index)=>{
-                    return (<PostComment comment={comment} index={index} id={id} post={post} key={index}></PostComment>)
-                })}
-            </div>
-            {(user)?<form action="#" onSubmit={commentPost}>
-                <label htmlFor="comment">Comment as {user.displayName}</label>
-                <textarea name="comment" id="comment" cols="30" rows="10"></textarea>
-                <button>Comment</button>
-            </form>:<p>Log in to comment</p>}</div>:<div>prova2</div>}
+                <h1>{post.title}</h1>
+                <h2>{post.user}</h2>
+                <p>{post.content}</p>
+                {(post.url)? <img src={post.url}></img> : <div>not image</div>}
+                <h6>{post.time}</h6>
+                <h6>{post.upvote}</h6>
+                {(!user)? <div></div> : (post.user === user.displayName)? <button onClick={deletePost}>delete post</button> : <button>invalid user</button>}
+                {(!user)? <div></div> : (post.user === user.displayName)? <Link to='/update' state={{post:post,id:id}}><button>Edit post</button></Link> : <button>invalid user, cant edit</button>}
             
-        </div>
+                <button onClick={upvote} className="upvote">Upvote</button>
+                <button onClick={downvote} className="downvote">downvote</button>
+
+                <div>
+                    {post.comments.map((comment,index)=>{
+                    return (<PostComment comment={comment} index={index} id={id} post={post} key={index}></PostComment>)
+                    })}
+                </div>
+                {(user)?<form action="#" onSubmit={commentPost}>
+                    <label htmlFor="comment">Comment as {user.displayName}</label>
+                    <textarea name="comment" id="comment" cols="30" rows="10"></textarea>
+                    <button>Comment</button>
+                </form>:<p>Log in to comment</p>}</div>:<div>prova2</div>}
+            
+            </div>
      );
 }
  

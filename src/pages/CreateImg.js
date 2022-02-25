@@ -4,6 +4,7 @@ import { auth } from "../firebaseConfig/firebaseConfig";
 import { storage } from "../firebaseConfig/firebaseConfig";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
+import { Spinner } from "react-bootstrap";
 
 import { ref,uploadBytesResumable,getDownloadURL } from "firebase/storage";
 
@@ -46,6 +47,9 @@ const CreateImg = () => {
     const storageFile = (e) => {
         //
         e.preventDefault()
+        const divSpin = document.querySelector('.spin')
+        const spinner = "<div class='spinner-border' role='status'><span class='visually-hidden'>Loading...</span></div>"
+        divSpin.innerHTML=spinner
         const formRef = document.querySelector('form')
         let file = formRef.image.files[0]
         console.log(file)
@@ -83,6 +87,7 @@ const CreateImg = () => {
                 <input type="file" name="image" required/>
                 <button>Submit</button>
             </form>
+            <div className="spin"></div>
         </div>
      );
 }
