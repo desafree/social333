@@ -6,17 +6,17 @@ import {getStorage} from 'firebase/storage'
 
 const firebaseConfig = {
 
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  apiKey: "AIzaSyB5sQAzTZ3x5IdCNyxgXMCQhaC7HTjVwh0",
 
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  authDomain: "social33-446c3.firebaseapp.com",
 
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  projectId: "social33-446c3",
 
-  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKED,
+  storageBucket: "social33-446c3.appspot.com",
 
-  messagingSenderId: process.env.REACT_APP_FIREBASE_MEDDAGING_SENDER_ID,
+  messagingSenderId: "891056462235",
 
-  appId: process.env.REACT_APP_FIREBASE_APP_ID
+  appId: "1:891056462235:web:473ac6b715a27c2659a93e"
 
 };
 

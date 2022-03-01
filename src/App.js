@@ -13,7 +13,7 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Post from "./pages/Post";
 import Update from "./pages/Update";
-import Bootstrap from "./pages/boostrao";
+
 
 const App = function() {
   return (
@@ -28,7 +28,6 @@ const App = function() {
         <Route path='/signup' element={<SignUp/>}></Route>
         <Route path='/post/:id' element={<Post/>}></Route>
         <Route path='/update' element={<Update/>}></Route>
-        <Route path='/bootstrap' element={<Bootstrap/>}></Route>
       </Routes>
     </BrowserRouter>
   );

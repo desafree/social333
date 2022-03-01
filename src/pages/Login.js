@@ -17,9 +17,6 @@ const Login = () => {
 
     const login = async () => {
         try {
-          const divSpin = document.querySelector('.spin')
-          const spinner = "<div class='spinner-border' role='status'><span class='visually-hidden'>Loading...</span></div>"
-          divSpin.innerHTML=spinner
           const user = await signInWithEmailAndPassword(
             auth,
             loginEmail,
@@ -45,7 +42,7 @@ const Login = () => {
               }}
             />
             <input
-              type='password'
+              placeholder="Password..."
               onChange={(event) => {
                 setLoginPassword(event.target.value);
               }}
@@ -56,8 +53,7 @@ const Login = () => {
     
           <h4> User Logged In: </h4>
           {user?.email}
-              
-          <div className="spin"></div>
+    
         </div>
       );
 }

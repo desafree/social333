@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
 
 const LoginNav = () => {
-
-    
     return ( 
         <ul>
             <Link to='/login'>Login</Link>

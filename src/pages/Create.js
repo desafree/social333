@@ -18,16 +18,15 @@ const Create = () => {
             const content = formRef.content.value
             const date = new Date();
             let dateText = date.toString()
-            console.log(auth.currentUser.displayName)
+            console.log(auth.currentUser.email)
     
             addDoc(colRef,{
                 title:title,
                 content: content,
                 time: dateText,
                 upvote:1,
-                user:auth.currentUser.displayName,
-                url:'', 
-                comments:[]
+                user:auth.currentUser.email,
+                url:''
             }).then(()=>{
                 formRef.reset()
                 console.log('added')
@@ -47,8 +46,8 @@ const Create = () => {
             <form action="" onSubmit={(e)=>{
                 createPost(e)
             }}>
-                <input type="text" name="title" required/>
-                <input type="text" name="content"required/>
+                <input type="text" name="title"/>
+                <input type="text" name="content"/>
                 <button>Submit</button>
             </form>
         </div>

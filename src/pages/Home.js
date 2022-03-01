@@ -2,163 +2,29 @@ import {onSnapshot} from 'firebase/firestore'
 import { useEffect, useState } from 'react';
 import { colRef } from '../firebaseConfig/firebaseConfig'
 import PostSummary from '../component/PostSummary';
-// import { Link } from 'react-router-dom';
-import { collection, getDocs } from "firebase/firestore";
-import { db } from '../firebaseConfig/firebaseConfig';
-import { Spinner } from 'react-bootstrap';
-
+import { Link } from 'react-router-dom';
 
 const Home = () => {
 
     const [posts, setPosts] = useState()
-    const [order,setOrder] = useState(2)
+    // const [order,setOrder] = useState(1)
 
 
     useEffect(()=>{
-
-        async function asyncCall() {
-            const querySnapshot = await getDocs(collection(db, "posts"));
+        let unsubscribe = onSnapshot(colRef,(snapshot)=>{
             let postsContainer = []
-            querySnapshot.forEach((doc) => {
+            snapshot.docs.forEach(doc=>{
                 postsContainer.push({...doc.data(),id:doc.id})
-            });
-    
-            console.log(order)
-    
-                // if(order==1) {
-                //     console.log(order)
-                //     let orderedarray = postsContainer.sort((a,b)=>{
-                //         if(a.upvote<b.upvote) {
-                //             return 1
-                //         }
-                //         else{
-                //             return -1
-                //         }
-                //     })
-        
-                //     let buttons = document.querySelectorAll('.orderButton')
-                //     buttons[0].style.backgroundColor = 'green'
-                //     buttons[1].style.backgroundColor = 'white'
-                //     buttons[2].style.backgroundColor = 'white'
-                //     setPosts(orderedarray)
-                // }
-    
-
-                console.log(order)
-                let orderedarray = postsContainer.sort((a,b)=>{
-                    if(Date.parse(a.time)<Date.parse(b.time)) {
-                        return 1
-                    }
-                    else{
-                        return -1
-                    }
-                })
-        
-                let buttons = document.querySelectorAll('.orderButton')
-                buttons[0].style.backgroundColor = 'white'
-                buttons[1].style.backgroundColor = 'green'
-                buttons[2].style.backgroundColor = 'white'
-                setPosts(orderedarray)
-                
-    
-                // else if(order==3) {
-                //     console.log(order)
-                //     let orderedarray = postsContainer.sort((a,b)=>{
-                //         if(Date.parse(a.time)<Date.parse(b.time)) {
-                //             return -1
-                //         }
-                //         else{
-                //             return 1
-                //         }
-                //     })
-        
-                //     let buttons = document.querySelectorAll('.orderButton')
-                //     buttons[0].style.backgroundColor = 'white'
-                //     buttons[1].style.backgroundColor = 'white'
-                //     buttons[2].style.backgroundColor = 'green'
-                //     setPosts(orderedarray)
-                // }
-    
-        }
-        asyncCall()
-        
-    },[])
-
-
-    // useEffect(()=>{
-    //     let unsubscribe = onSnapshot(colRef,(snapshot)=>{
-    //         let postsContainer = []
-    //         snapshot.docs.forEach(doc=>{
-    //             postsContainer.push({...doc.data(),id:doc.id})
-    //         })
-    //         console.log(order)
-
-    //         if(order==1) {
-    //             console.log(order)
-    //             let orderedarray = postsContainer.sort((a,b)=>{
-    //                 if(a.upvote<b.upvote) {
-    //                     return 1
-    //                 }
-    //                 else{
-    //                     return -1
-    //                 }
-    //             })
-    
-    //             let buttons = document.querySelectorAll('.orderButton')
-    //             buttons[0].style.backgroundColor = 'green'
-    //             buttons[1].style.backgroundColor = 'white'
-    //             buttons[2].style.backgroundColor = 'white'
-    //             setPosts(orderedarray)
-    //         }
-
-    //         else if(order==2) {
-    //             console.log(order)
-    //             let orderedarray = postsContainer.sort((a,b)=>{
-    //                 if(Date.parse(a.time)<Date.parse(b.time)) {
-    //                     return 1
-    //                 }
-    //                 else{
-    //                     return -1
-    //                 }
-    //             })
-    
-    //             let buttons = document.querySelectorAll('.orderButton')
-    //             buttons[0].style.backgroundColor = 'white'
-    //             buttons[1].style.backgroundColor = 'green'
-    //             buttons[2].style.backgroundColor = 'white'
-    //             setPosts(orderedarray)
-    //         }
-
-    //         else if(order==3) {
-    //             console.log(order)
-    //             let orderedarray = postsContainer.sort((a,b)=>{
-    //                 if(Date.parse(a.time)<Date.parse(b.time)) {
-    //                     return -1
-    //                 }
-    //                 else{
-    //                     return 1
-    //                 }
-    //             })
-    
-    //             let buttons = document.querySelectorAll('.orderButton')
-    //             buttons[0].style.backgroundColor = 'white'
-    //             buttons[1].style.backgroundColor = 'white'
-    //             buttons[2].style.backgroundColor = 'green'
-    //             setPosts(orderedarray)
-    //         }
-
-            
-    //     });
-    //     return ()=> unsubscribe();
-    // },[]);
-
-
+            })
+            setPosts(postsContainer)
+        });
+        return ()=> unsubscribe();
+    },[]);
 
     
 
     function changeOrder(e) {
-        console.log(e,posts)
-        if(e==='Top') {
+        if(e.target.textContent==='Top') {
             // setOrder(1)
             let newArray = [...posts]
             newArray.sort((a,b)=>{
@@ -170,14 +36,9 @@ const Home = () => {
                 }
             })
 
-            let buttons = document.querySelectorAll('.orderButton')
-            buttons[0].style.backgroundColor = 'green'
-            buttons[1].style.backgroundColor = 'white'
-            buttons[2].style.backgroundColor = 'white'
-
             setPosts(newArray)
         }
-        else if(e==='New') {
+        else if(e.target.textContent==='New') {
             // setOrder(2)
             let newArray = [...posts]
             newArray.sort((a,b)=>{
@@ -189,14 +50,9 @@ const Home = () => {
                 }
             })
 
-            let buttons = document.querySelectorAll('.orderButton')
-            buttons[0].style.backgroundColor = 'white'
-            buttons[1].style.backgroundColor = 'green'
-            buttons[2].style.backgroundColor = 'white'
-
             setPosts(newArray)
         }
-        else if(e==='Old') {
+        else if(e.target.textContent==='Old') {
             // setOrder(3)
             let newArray = [...posts]
             newArray.sort((a,b)=>{
@@ -208,11 +64,6 @@ const Home = () => {
                 }
             })
 
-            let buttons = document.querySelectorAll('.orderButton')
-            buttons[0].style.backgroundColor = 'white'
-            buttons[1].style.backgroundColor = 'white'
-            buttons[2].style.backgroundColor = 'green'
-
             setPosts(newArray)
         }
     }
@@ -220,24 +71,22 @@ const Home = () => {
     return ( 
         <div>
             <div>
-                <button className='orderButton' onClick={(e)=>{
-                    changeOrder(e.target.textContent)
+                <button onClick={(e)=>{
+                    changeOrder(e)
                 }}>Top</button>
-                <button className='orderButton' onClick={(e)=>{
-                    changeOrder(e.target.textContent)
+                <button onClick={(e)=>{
+                    changeOrder(e)
                 }}>New</button>
-                <button className='orderButton' onClick={(e)=>{
-                    changeOrder(e.target.textContent)
+                <button onClick={(e)=>{
+                    changeOrder(e)
                 }}>Old</button>
                 
             </div>
             <div>
-                {(posts)? posts.map((post,index)=>{
-                    return <PostSummary post={post} key={post.id} index={index}/>
+                {posts && posts.map((post)=>{
+                    return <Link to={`/post/${post.id}`} state={{post:{post}}}> <PostSummary post={post} key={post.id} /></Link>
 
-                }):<Spinner animation="border" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </Spinner>}
+                })}
             </div>
         </div>
         
